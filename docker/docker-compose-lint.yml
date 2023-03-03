@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+    app:
+        image: foodapp_lint
+        build: 
+            context: .
+            dockerfile: ./docker/Dockerfile
+        volumes:
+            - ./:/usr/src/foodapp
+            - /usr/src/foodapp/node_modules
+        command: npm run lint:fix

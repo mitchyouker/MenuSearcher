@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+    db:
+        image: foodapp_db
+        build: 
+            context: ./api
+            dockerfile: ./docker/db/Dockerfile
+        volumes:
+            - ./docker/db/assets/:/docker-entrypoint-initdb.d/
+        env_file: 
+            - ./docker/db.env
+        ports:
+            - 5432:5432
+        logging:
+            driver: "none"
+    api:
+        image: foodapp_api
+        build: 
+            context: ./api
+            dockerfile: docker/api/Dockerfile
+        restart: "always"
+        volumes:
+            - ./api/:/usr/src/foodapp
+            - /usr/src/foodapp/node_modules
+        env_file: 
+            - ./docker/db.env
+        ports:
+            - 3000:3000
+        depends_on:
+            - db
+        logging:
+            driver: "none"
+        command: npm run debug
+    app:
+        image: foodapp_test
+        build: 
+            context: .
+            dockerfile: ./docker/Dockerfile
+        stdin_open: true
+        volumes:
+            - ./:/usr/src/foodapp
+            - /usr/src/foodapp/node_modules
+        ports:
+            - 8081:8081
+            - 9229:9229
+        depends_on:
+            - db
+            - api
+        command: npm run test
