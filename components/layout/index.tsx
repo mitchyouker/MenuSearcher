@@ -40,12 +40,12 @@ export default function Layout({
           <Link href="/" className="flex items-center font-display text-2xl">
             <Image
               src="/logo.png"
-              alt="Precedent logo"
+              alt="Dine Refine"
               width="30"
               height="30"
               className="mr-2 rounded-sm"
             ></Image>
-            <p>Precedent</p>
+            <p>Dine Refine</p>
           </Link>
           <div>
             <AnimatePresence>

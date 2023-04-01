@@ -1,4 +1,6 @@
 import "@/styles/globals.css";
+import "@/styles/react-phone-input-2.css";
+
 import type { AppProps } from "next/app";
 import { Analytics } from "@vercel/analytics/react";
 import type { Session } from "next-auth";
