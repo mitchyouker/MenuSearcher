@@ -1,6 +1,6 @@
 import { Component, ReactNode, useEffect, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
-import MenuItem from "./menu-item";
+import MenuItem from "./Card2";
 
 interface ItemType {
   id: number;

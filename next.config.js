@@ -14,6 +14,10 @@ const nextConfig = {
       },
     ];
   },
+  compiler: {
+    // Enables the styled-components SWC transform
+    styledComponents: true
+  }
   // except for webpack, other parts are left as generated
   // webpack: (config, context) => {
   //   config.watchOptions = {

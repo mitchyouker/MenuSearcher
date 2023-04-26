@@ -1202,5 +1202,14 @@
 }
 
 .menu-item-chosen {
-	box-shadow: 8px 8px 32px #640707;
+	box-shadow: 8px 8px 32px #e1e1e1;
+}
+
+.sortable-drag {
+	opacity: 0;
+}
+
+.ghost {
+	box-shadow: 8px 8px 32px #ce1313;
+	opacity: 0;
 }

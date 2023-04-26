@@ -1,14 +1,17 @@
 import Card from "@/components/home/card";
 import Layout from "@/components/layout";
-import Balancer from "react-wrap-balancer";
-import { motion } from "framer-motion";
+// import Balancer from "react-wrap-balancer";
+// import { motion } from "framer-motion";
 import { DEPLOY_URL, FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
-import { Github, Twitter } from "@/components/shared/icons";
+// import { Github, Twitter } from "@/components/shared/icons";
 import WebVitals from "@/components/home/web-vitals";
 import RestaurantGrid from "@/components/home/restaurant-grid";
 import LocationGrid from "@/components/home/locations-grid";
 import Image from "next/image";
 import MenusGrid from "@/components/home/menus-grid";
+
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export default function Home() {
   return (
@@ -37,9 +40,10 @@ export default function Home() {
       <div className="mt-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-1 xl:px-0">
         <Card key={"locations"} content={<LocationGrid />}/>
       </div>
-      <div className="mt-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-1 xl:px-0">
+
+      <DndProvider backend={HTML5Backend} className="mt-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-1 xl:px-0">
         <Card key={"menus"} content={<MenusGrid />}/>
-      </div>
+      </DndProvider>
     </Layout>
   );
 }
