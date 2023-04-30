@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  // reactStrictMode: true,
   swcMinify: true,
   images: {
     domains: ["lh3.googleusercontent.com"],
@@ -16,8 +16,8 @@ const nextConfig = {
   },
   compiler: {
     // Enables the styled-components SWC transform
-    styledComponents: true
-  }
+    styledComponents: true,
+  },
   // except for webpack, other parts are left as generated
   // webpack: (config, context) => {
   //   config.watchOptions = {

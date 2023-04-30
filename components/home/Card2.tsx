@@ -1,27 +1,27 @@
-import type { CSSProperties, FC } from 'react'
-import { memo } from 'react'
-import { useDrag, useDrop } from 'react-dnd'
+import type { CSSProperties, FC } from "react";
+import { memo } from "react";
+import { useDrag, useDrop } from "react-dnd";
 
-import { ItemTypes } from './ItemTypes'
+import { ItemTypes } from "./ItemTypes";
 
 const style: CSSProperties = {
-  border: '1px dashed gray',
-  padding: '0.5rem 1rem',
-  marginBottom: '.5rem',
-  backgroundColor: 'white',
-  cursor: 'move',
-}
+  border: "1px dashed gray",
+  padding: "0.5rem 1rem",
+  marginBottom: ".5rem",
+  backgroundColor: "white",
+  cursor: "move",
+};
 
 export interface CardProps {
-  id: string
-  text: string
-  moveCard: (id: string, to: number) => void
-  findCard: (id: string) => { index: number }
+  id: string;
+  text: string;
+  moveCard: (id: string, to: number) => void;
+  findCard: (id: string) => { index: number };
 }
 
 interface Item {
-  id: string
-  originalIndex: number
+  id: string;
+  originalIndex: number;
 }
 
 export const Card2: FC<CardProps> = memo(function Card({
@@ -30,7 +30,7 @@ export const Card2: FC<CardProps> = memo(function Card({
   moveCard,
   findCard,
 }) {
-  const originalIndex = findCard(id).index
+  const originalIndex = findCard(id).index;
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: ItemTypes.CARD,
@@ -39,33 +39,33 @@ export const Card2: FC<CardProps> = memo(function Card({
         isDragging: monitor.isDragging(),
       }),
       end: (item, monitor) => {
-        const { id: droppedId, originalIndex } = item
-        const didDrop = monitor.didDrop()
+        const { id: droppedId, originalIndex } = item;
+        const didDrop = monitor.didDrop();
         if (!didDrop) {
-          moveCard(droppedId, originalIndex)
+          moveCard(droppedId, originalIndex);
         }
       },
     }),
     [id, originalIndex, moveCard],
-  )
+  );
 
   const [, drop] = useDrop(
     () => ({
       accept: ItemTypes.CARD,
       hover({ id: draggedId }: Item) {
         if (draggedId !== id) {
-          const { index: overIndex } = findCard(id)
-          moveCard(draggedId, overIndex)
+          const { index: overIndex } = findCard(id);
+          moveCard(draggedId, overIndex);
         }
       },
     }),
     [findCard, moveCard],
-  )
+  );
 
-  const opacity = isDragging ? 0 : 1
+  const opacity = isDragging ? 0 : 1;
   return (
     <div ref={(node) => drag(drop(node))} style={{ ...style, opacity }}>
       {text}
     </div>
-  )
-})
+  );
+});

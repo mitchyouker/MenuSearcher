@@ -4,7 +4,7 @@ const useInput = (initialValue: any) => {
   const [value, setValue] = useState(initialValue);
   const [suggestions, setSuggestions] = useState([]);
 
-  const handleChange = async (event: { target: { value: any; }; }) => {
+  const handleChange = async (event: { target: { value: any } }) => {
     setValue(event.target.value);
 
     try {
@@ -22,7 +22,7 @@ const useInput = (initialValue: any) => {
     onChange: handleChange,
     setValue,
     suggestions,
-    setSuggestions
+    setSuggestions,
   };
 };
 

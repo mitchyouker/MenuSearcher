@@ -10,16 +10,12 @@ import LocationGrid from "@/components/home/locations-grid";
 import Image from "next/image";
 import MenusGrid from "@/components/home/menus-grid";
 
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-
 export default function Home() {
   return (
     <Layout>
-      
       {/* here we are animating with Tailwind instead of Framer Motion because Framer Motion messes up the z-index for child components */}
       <div className="grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-1 xl:px-0">
-        <Card key={"title"} content={<RestaurantGrid />}/>
+        <Card key={"title"} content={<RestaurantGrid />} />
         {/* {features.map(({ title, description, demo, large }) => (
           <Card
             key={title}
@@ -38,12 +34,12 @@ export default function Home() {
         ))} */}
       </div>
       <div className="mt-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-1 xl:px-0">
-        <Card key={"locations"} content={<LocationGrid />}/>
+        <Card key={"locations"} content={<LocationGrid />} />
       </div>
 
-      <DndProvider backend={HTML5Backend} className="mt-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-1 xl:px-0">
-        <Card key={"menus"} content={<MenusGrid />}/>
-      </DndProvider>
+      <div className="mt-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-1 xl:px-0">
+        <Card key={"menus"} content={<MenusGrid />} />
+      </div>
     </Layout>
   );
 }
