@@ -8,7 +8,6 @@ const StyledBlockWrapper = styled.div`
   margin-bottom: 10px;
   border: 1px solid lightgray;
   border-radius: 4px;
-  cursor: move;
   &:hover {
     //background: #eeeeee;
   }

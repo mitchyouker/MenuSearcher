@@ -8,7 +8,6 @@ const StyledBlockWrapper = styled.div`
   margin-bottom: 10px;
   border: 1px solid lightgray;
   border-radius: 4px;
-  cursor: move;
   &:hover {
     //background: #eeeeee;
   }
@@ -40,7 +39,7 @@ export const MenuDrag = ({ id, index, name, ...props }) => {
                     </g>
                   </svg>
                 </div>
-                <h2 className="pl-1 text-xl leading-none tracking-tight text-gray-900 dark:text-white">
+                <h2 className="pl-2 text-xl leading-none tracking-tight text-gray-900 dark:text-white">
                   {name}
                 </h2>
               </div>
