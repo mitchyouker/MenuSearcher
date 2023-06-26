@@ -13,7 +13,7 @@ const StyledBlockWrapper = styled.div`
   }
 `;
 
-export const Drag = ({ id, index, ...props }) => {
+export const Drag = ({ id, index, price, name, description, ...props }) => {
   return (
     <Draggable draggableId={id} index={index}>
       {(provided, snapshot) => {
@@ -39,8 +39,29 @@ export const Drag = ({ id, index, ...props }) => {
                     </g>
                   </svg>
                 </div>
-                {props.children}
+                <h2 className="pl-2 text-lg tracking-tight text-gray-900 dark:text-white">
+                  {name}
+                </h2>
+                <div className="ml-auto flex">
+                  { price &&
+                    <h3 className="pl-2 text-lg tracking-tight text-gray-900 dark:text-white">
+                      ${price}
+                    </h3>
+                  }
+                  {/* <button
+                    type="button"
+                    className="ml-2 w-18 rounded-lg border border-blue-500 px-4 py-1 text-center text-sm font-medium text-blue-500 hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800"
+                  >
+                    Edit
+                  </button> */}
+                </div>
               </div>
+              { description &&
+                <div>
+                  <hr className="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700"/>
+                  <p className="text-gray-500 dark:text-gray-400">{description}</p>
+                </div>
+              }
             </StyledBlockWrapper>
           </div>
         );

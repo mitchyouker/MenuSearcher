@@ -1,3 +1,4 @@
+import { useMenuContext } from "context/menu";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
@@ -13,7 +14,9 @@ const StyledBlockWrapper = styled.div`
   }
 `;
 
-export const MenuDrag = ({ id, index, name, ...props }) => {
+export const MenuDrag = ({ id, index, name, description, ...props }) => {
+  const { updateCategoryName, addMenuItem } = useMenuContext();
+
   return (
     <Draggable draggableId={id} index={index}>
       {(provided) => {
@@ -39,10 +42,34 @@ export const MenuDrag = ({ id, index, name, ...props }) => {
                     </g>
                   </svg>
                 </div>
-                <h2 className="pl-2 text-xl leading-none tracking-tight text-gray-900 dark:text-white">
-                  {name}
-                </h2>
+                <input class="tracking-tight rounded w-auto pl-2 text-xl font-semibold hover:border-slate-200 border-transparent border-2 focus:ring-slate-300 focus:border-none appearance-none bg-transparent bg-none p-0 outline-none text-gray-900 dark:text-white" 
+                id="username" type="text" placeholder="Category Name" value={name}
+                onChange={e => {
+                  updateCategoryName(id, e.target.value);
+                  // onChange(id, e.target.value);
+                }}/>
+                <div className="ml-auto">
+                  <button
+                    type="button"
+                    className="w-18 rounded-lg border border-blue-500 px-4 py-1 text-center text-sm font-medium text-blue-500 hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800"
+                    onClick={() => addMenuItem(id)}
+                  >
+                    Add Item
+                  </button>
+                  {/* <button
+                    type="button"
+                    className="ml-2 w-18 rounded-lg border border-blue-500 px-4 py-1 text-center text-sm font-medium text-blue-500 hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800"
+                  >
+                    Edit
+                  </button> */}
+                </div>
               </div>
+              { description &&
+                <div>
+                  <hr className="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700"/>
+                  <p className="text-gray-500 dark:text-gray-400">{description}</p>
+                </div>
+              }
             </StyledBlockWrapper>
             {props.children}
           </div>

@@ -5,7 +5,7 @@ import Layout from "@/components/layout";
 import { DEPLOY_URL, FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 // import { Github, Twitter } from "@/components/shared/icons";
 import WebVitals from "@/components/home/web-vitals";
-import RestaurantGrid from "@/components/home/restaurant-grid";
+import OrganizationGrid from "@/components/home/organization-grid";
 import LocationGrid from "@/components/home/locations-grid";
 import Image from "next/image";
 import MenusGrid from "@/components/home/menus-grid";
@@ -15,7 +15,7 @@ export default function Home() {
     <Layout>
       {/* here we are animating with Tailwind instead of Framer Motion because Framer Motion messes up the z-index for child components */}
       <div className="grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-1 xl:px-0">
-        <Card key={"title"} content={<RestaurantGrid />} />
+        <Card key={"title"} content={<OrganizationGrid />} />
         {/* {features.map(({ title, description, demo, large }) => (
           <Card
             key={title}
