@@ -1,3 +1,4 @@
+import { useMenuContext } from "context/menu";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
@@ -14,6 +15,7 @@ const StyledBlockWrapper = styled.div`
 `;
 
 export const Drag = ({ id, index, price, name, description, ...props }) => {
+  const { updateItemName } = useMenuContext();
   return (
     <Draggable draggableId={id} index={index}>
       {(provided, snapshot) => {
@@ -39,9 +41,14 @@ export const Drag = ({ id, index, price, name, description, ...props }) => {
                     </g>
                   </svg>
                 </div>
-                <h2 className="pl-2 text-lg tracking-tight text-gray-900 dark:text-white">
+                <input class="tracking-tight rounded w-auto pl-2 text-lg font-semibold hover:border-slate-200 border-transparent border-2 focus:ring-slate-300 focus:border-none appearance-none bg-transparent bg-none p-0 outline-none text-gray-900 dark:text-white" 
+                  id="itemName" type="text" placeholder="Item Name" value={name}
+                  onChange={e => {
+                    updateItemName(id, e.target.value);
+                }}/>
+                {/* <h2 className="pl-2 text-lg tracking-tight text-gray-900 dark:text-white">
                   {name}
-                </h2>
+                </h2> */}
                 <div className="ml-auto flex">
                   { price &&
                     <h3 className="pl-2 text-lg tracking-tight text-gray-900 dark:text-white">

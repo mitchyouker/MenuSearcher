@@ -43,10 +43,9 @@ export const MenuDrag = ({ id, index, name, description, ...props }) => {
                   </svg>
                 </div>
                 <input class="tracking-tight rounded w-auto pl-2 text-xl font-semibold hover:border-slate-200 border-transparent border-2 focus:ring-slate-300 focus:border-none appearance-none bg-transparent bg-none p-0 outline-none text-gray-900 dark:text-white" 
-                id="username" type="text" placeholder="Category Name" value={name}
+                id="categoryName" type="text" placeholder="Category Name" value={name}
                 onChange={e => {
                   updateCategoryName(id, e.target.value);
-                  // onChange(id, e.target.value);
                 }}/>
                 <div className="ml-auto">
                   <button

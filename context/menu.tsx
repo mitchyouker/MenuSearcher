@@ -27,12 +27,12 @@ type menuContextType = {
   addCategory: () => void;
   addMenuItem: (id: string) => void;
   
-  updateCategoryName: (id: string) => void;
-  updateCategoryDescription: (id: string) => void;
+  updateCategoryName: (id: string, name: string) => void;
+  updateCategoryDescription: (id: string, description: string) => void;
 
-  updateItemName: (id: string) => void;
-  updateItemDescription: (id: string) => void;
-  updateItemPrice: (id: string) => void;
+  updateItemName: (id: string, name: string) => void;
+  updateItemDescription: (id: string, description: string) => void;
+  updateItemPrice: (id: string, price: string) => void;
 };
 
 type menuItem = {
@@ -222,18 +222,59 @@ export function MenuProvider({ children }: Props) {
     }
   };
 
-  // const updateItemName = (itemId: string, name: string) => {
-  //   const foundCategory = categories.find((category) => category.items.forEach(item => item.id === itemId));
-  //   if (foundCategory) {
-  //     const updatedCategories = categories.map((category) =>
-  //       category.id !== categoryId
-  //         ? category
-  //         : { ...category, name: name },
-  //     );
+  const updateItemName = (itemId: string, name: string) => {
+    let foundCategory;
+    let foundItem;
+    let foundIndex;
+    categories.forEach((category) => {
+      category.items.forEach((item, index) => {
+        if (item.id === itemId) {
+          foundCategory = category;
+          foundItem = item;
+          foundIndex = index;
+        }
+      });
+    });
+    if (foundItem) {
+      const updatedItems = foundCategory.items;
+      updatedItems[foundIndex].name = name;
 
-  //     setCategories(updatedCategories);
-  //   }
-  // };
+      const updatedCategories = categories.map((category) =>
+        category.id !== foundCategory.id
+          ? category
+          : { ...category, items: updatedItems },
+      );
+
+      setCategories(updatedCategories);
+    }
+  };
+
+  const updateItemDescription = (itemId: string, description: string) => {
+    let foundCategory;
+    let foundItem;
+    let foundIndex;
+    categories.forEach((category) => {
+      category.items.forEach((item, index) => {
+        if (item.id === itemId) {
+          foundCategory = category;
+          foundItem = item;
+          foundIndex = index;
+        }
+      });
+    });
+    if (foundItem) {
+      const updatedItems = foundCategory.items;
+      updatedItems[foundIndex].description = description;
+
+      const updatedCategories = categories.map((category) =>
+        category.id !== foundCategory.id
+          ? category
+          : { ...category, items: updatedItems },
+      );
+
+      setCategories(updatedCategories);
+    }
+  };
 
   const value = {
     categories,
@@ -244,6 +285,8 @@ export function MenuProvider({ children }: Props) {
 
     updateCategoryName,
     updateCategoryDescription,
+
+    updateItemName
   };
 
   return (
