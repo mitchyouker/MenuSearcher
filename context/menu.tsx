@@ -32,7 +32,7 @@ type menuContextType = {
 
   updateItemName: (id: string, name: string) => void;
   updateItemDescription: (id: string, description: string) => void;
-  updateItemPrice: (id: string, price: string) => void;
+  updateItemPrice: (id: string, price: number) => void;
 };
 
 type menuItem = {
@@ -168,7 +168,7 @@ export function MenuProvider({ children }: Props) {
 
   const addCategory = () => {
     const category = {
-      id: crypto.randomUUID(),
+      id: crypto.randomUUID().toString(),
       name: "",
       items: [],
     }
@@ -178,9 +178,9 @@ export function MenuProvider({ children }: Props) {
 
   const addMenuItem = (categoryId: string) => {
     const newItem = {
-      id: crypto.randomUUID().toString,
-      name: "Testing",
-      price: 8.99
+      id: crypto.randomUUID().toString(),
+      name: "",
+      price: null
     }
 
     const category = categories.find((category) => category.id === categoryId);
@@ -276,6 +276,33 @@ export function MenuProvider({ children }: Props) {
     }
   };
 
+  const updateItemPrice = (itemId: string, price: number) => {
+    let foundCategory;
+    let foundItem;
+    let foundIndex;
+    categories.forEach((category) => {
+      category.items.forEach((item, index) => {
+        if (item.id === itemId) {
+          foundCategory = category;
+          foundItem = item;
+          foundIndex = index;
+        }
+      });
+    });
+    if (foundItem) {
+      const updatedItems = foundCategory.items;
+      updatedItems[foundIndex].price = price;
+
+      const updatedCategories = categories.map((category) =>
+        category.id !== foundCategory.id
+          ? category
+          : { ...category, items: updatedItems },
+      );
+
+      setCategories(updatedCategories);
+    }
+  };
+
   const value = {
     categories,
     handleDrag,
@@ -286,7 +313,9 @@ export function MenuProvider({ children }: Props) {
     updateCategoryName,
     updateCategoryDescription,
 
-    updateItemName
+    updateItemName,
+    updateItemDescription,
+    updateItemPrice
   };
 
   return (

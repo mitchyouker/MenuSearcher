@@ -15,7 +15,7 @@ const StyledBlockWrapper = styled.div`
 `;
 
 export const Drag = ({ id, index, price, name, description, ...props }) => {
-  const { updateItemName } = useMenuContext();
+  const { updateItemName, updateItemPrice, updateItemDescription } = useMenuContext();
   return (
     <Draggable draggableId={id} index={index}>
       {(provided, snapshot) => {
@@ -41,7 +41,7 @@ export const Drag = ({ id, index, price, name, description, ...props }) => {
                     </g>
                   </svg>
                 </div>
-                <input class="tracking-tight rounded w-auto pl-2 text-lg font-semibold hover:border-slate-200 border-transparent border-2 focus:ring-slate-300 focus:border-none appearance-none bg-transparent bg-none p-0 outline-none text-gray-900 dark:text-white" 
+                <input className="tracking-tight rounded w-auto pl-2 text-lg text-gray-900 dark:text-white hover:border-slate-200 border-transparent border-2 focus:ring-slate-300 focus:border-none appearance-none bg-transparent bg-none p-0 outline-none text-gray-900 dark:text-white" 
                   id="itemName" type="text" placeholder="Item Name" value={name}
                   onChange={e => {
                     updateItemName(id, e.target.value);
@@ -50,17 +50,14 @@ export const Drag = ({ id, index, price, name, description, ...props }) => {
                   {name}
                 </h2> */}
                 <div className="ml-auto flex">
-                  { price &&
-                    <h3 className="pl-2 text-lg tracking-tight text-gray-900 dark:text-white">
-                      ${price}
-                    </h3>
-                  }
-                  {/* <button
-                    type="button"
-                    className="ml-2 w-18 rounded-lg border border-blue-500 px-4 py-1 text-center text-sm font-medium text-blue-500 hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800"
-                  >
-                    Edit
-                  </button> */}
+                    <input className="tracking-tight rounded w-16 pl-2 text-lg text-gray-900 dark:text-white hover:border-slate-200 border-transparent border-2 focus:ring-slate-300 focus:border-none appearance-none bg-transparent bg-none p-0 outline-none text-gray-900 dark:text-white" 
+                    id="itemPrice" type="text" placeholder="0.00" value={price}
+                    onChange={e => {
+                        updateItemPrice(id, e.target.value);
+                    }}/>
+                   {/* <h3 className="pl-2 text-lg tracking-tight text-gray-900 dark:text-white">
+                     ${price}
+                    </h3> */}
                 </div>
               </div>
               { description &&
