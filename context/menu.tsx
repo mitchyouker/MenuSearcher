@@ -25,14 +25,17 @@ type menuContextType = {
   handleDrag: () => void;
   
   addCategory: () => void;
-  addMenuItem: (id: string) => void;
+  addCategoryItem: (id: string) => void;
+
+  deleteCategory: (id: string) => void;
+  deleteCategoryItem: (id: string) => void;
   
   updateCategoryName: (id: string, name: string) => void;
   updateCategoryDescription: (id: string, description: string) => void;
 
   updateItemName: (id: string, name: string) => void;
   updateItemDescription: (id: string, description: string) => void;
-  updateItemPrice: (id: string, price: number) => void;
+  updateItemPrice: (id: string, price: string | undefined) => void;
 };
 
 type menuItem = {
@@ -47,7 +50,10 @@ const menuContextDefaultValues: menuContextType = {
   handleDrag: () => {},
   
   addCategory: () => {},
-  addMenuItem: () => {},
+  addCategoryItem: () => {},
+
+  deleteCategory: () => {},
+  deleteCategoryItem: () => {},
 
   updateCategoryName: () => {},
   updateCategoryDescription: () => {},
@@ -176,7 +182,12 @@ export function MenuProvider({ children }: Props) {
     setCategories([...categories, category]);
   };
 
-  const addMenuItem = (categoryId: string) => {
+  const deleteCategory = (categoryId: string) => {
+    const updatedCategories = categories.filter(function(category) { return category.id !== categoryId }); 
+    setCategories(updatedCategories);
+  };
+
+  const addCategoryItem = (categoryId: string) => {
     const newItem = {
       id: crypto.randomUUID().toString(),
       name: "",
@@ -190,6 +201,32 @@ export function MenuProvider({ children }: Props) {
         category.id !== categoryId
           ? category
           : { ...category, items: items },
+      );
+
+      setCategories(updatedCategories);
+    }
+  };
+
+  const deleteCategoryItem = (itemId: string) => {
+    let foundCategory;
+    let foundItem;
+    let foundIndex;
+    categories.forEach((category) => {
+      category.items.forEach((item, index) => {
+        if (item.id === itemId) {
+          foundCategory = category;
+          foundItem = item;
+          foundIndex = index;
+        }
+      });
+    });
+    if (foundItem) {
+      const updatedItems = foundCategory.items.filter((item) => item.id !== itemId);
+
+      const updatedCategories = categories.map((category) =>
+        category.id !== foundCategory.id
+          ? category
+          : { ...category, items: updatedItems },
       );
 
       setCategories(updatedCategories);
@@ -308,7 +345,10 @@ export function MenuProvider({ children }: Props) {
     handleDrag,
     
     addCategory,
-    addMenuItem,
+    addCategoryItem,
+
+    deleteCategory,
+    deleteCategoryItem,
 
     updateCategoryName,
     updateCategoryDescription,

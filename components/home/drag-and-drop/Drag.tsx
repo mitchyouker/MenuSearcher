@@ -1,5 +1,6 @@
 import { useMenuContext } from "context/menu";
 import { Draggable } from "react-beautiful-dnd";
+import CurrencyInput from 'react-currency-input-field';
 import styled from "styled-components";
 
 const StyledBlockWrapper = styled.div`
@@ -15,7 +16,8 @@ const StyledBlockWrapper = styled.div`
 `;
 
 export const Drag = ({ id, index, price, name, description, ...props }) => {
-  const { updateItemName, updateItemPrice, updateItemDescription } = useMenuContext();
+  const { updateItemName, updateItemPrice, updateItemDescription, deleteCategoryItem } = useMenuContext();
+  
   return (
     <Draggable draggableId={id} index={index}>
       {(provided, snapshot) => {
@@ -41,29 +43,47 @@ export const Drag = ({ id, index, price, name, description, ...props }) => {
                     </g>
                   </svg>
                 </div>
-                <input className="tracking-tight rounded w-auto pl-2 text-lg text-gray-900 dark:text-white hover:border-slate-200 border-transparent border-2 focus:ring-slate-300 focus:border-none appearance-none bg-transparent bg-none p-0 outline-none text-gray-900 dark:text-white" 
-                  id="itemName" type="text" placeholder="Item Name" value={name}
+                <input className="tracking-tight rounded w-auto pl-2 text-lg text-gray-900 dark:text-white hover:border-slate-200 border-transparent border-2 focus:border-slate-300 focus:ring-slate-300 appearance-none bg-transparent bg-none p-0 outline-none text-gray-900 dark:text-white" 
+                  id="itemName" type="text" placeholder="Item Name" value={name} autoComplete="false"
                   onChange={e => {
                     updateItemName(id, e.target.value);
                 }}/>
-                {/* <h2 className="pl-2 text-lg tracking-tight text-gray-900 dark:text-white">
-                  {name}
-                </h2> */}
                 <div className="ml-auto flex">
-                    <input className="tracking-tight rounded w-16 pl-2 text-lg text-gray-900 dark:text-white hover:border-slate-200 border-transparent border-2 focus:ring-slate-300 focus:border-none appearance-none bg-transparent bg-none p-0 outline-none text-gray-900 dark:text-white" 
-                    id="itemPrice" type="text" placeholder="0.00" value={price}
-                    onChange={e => {
-                        updateItemPrice(id, e.target.value);
-                    }}/>
-                   {/* <h3 className="pl-2 text-lg tracking-tight text-gray-900 dark:text-white">
-                     ${price}
-                    </h3> */}
+                  <CurrencyInput
+                    id="itemPrice"
+                    className="text-right tracking-tight rounded w-20 pr-1 text-md text-gray-900 dark:text-white hover:border-slate-200 border-transparent border-2 focus:border-slate-300 focus:ring-slate-300 appearance-none bg-transparent bg-none p-0 outline-none text-gray-900 dark:text-white" 
+                    name="itemPrice"
+                    placeholder="Price"
+                    autoComplete="false"
+                    prefix="$"
+                    maxLength={7}
+                    decimalsLimit={2}
+                    value={price}
+                    onValueChange={(value) => {
+                      updateItemPrice(id, value);
+                    }}
+                  />
+                  <button type="button" className="ml-1 text-red-600 hover:bg-red-100 focus:ring-2 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-1.5 text-center inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                    onClick={() => {
+                      deleteCategoryItem(id);
+                    }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                    </svg>
+                    <span className="sr-only">Delete Item</span>
+                  </button>
                 </div>
               </div>
               { description &&
                 <div>
                   <hr className="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700"/>
-                  <p className="text-gray-500 dark:text-gray-400">{description}</p>
+                  <input className="tracking-tight rounded w-full pl-2 text-gray-600 dark:text-white hover:border-slate-200 border-transparent border-2 focus:border-slate-300 focus:ring-slate-300 focus:text-gray-900 appearance-none bg-transparent bg-none p-0 outline-none" 
+                    id="itemDescription" type="text" placeholder="Item Description" value={description} autoComplete="false"
+                    onChange={e => {
+                      updateItemDescription(id, e.target.value);
+                    }}/>
+                  {/* <p className="text-gray-500 dark:text-gray-400">{description}</p> */}
                 </div>
               }
             </StyledBlockWrapper>
