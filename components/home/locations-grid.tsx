@@ -5,6 +5,7 @@ import useInput from "./useInput";
 import PhoneInput from "react-phone-input-2";
 import TimePicker from "../reusable/time-picker";
 import DayHours from "./day-hours";
+import Modal from "../shared/modal";
 
 const SuggestionWrapper = styled.div`
   background: white;
@@ -96,168 +97,153 @@ export default function LocationsGrid() {
         </button>
       </div>
 
-      {showModal ? (
-        <>
-          <div
-            className="relative z-30"
-            aria-labelledby="modal-title"
-            role="dialog"
-            aria-modal="true"
-          >
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-            <div className="fixed inset-0 z-10 overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"></div>
-              <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
-                <div className="relative h-full w-full max-w-2xl md:h-auto">
-                  <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
-                    <button
-                      type="button"
-                      className="absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white"
-                      onClick={() => setShowModal(false)}
-                    >
-                      <svg
-                        aria-hidden="true"
-                        className="h-5 w-5"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        ></path>
-                      </svg>
-                      <span className="sr-only">Close modal</span>
-                    </button>
+      <Modal showModal={showModal} setShowModal={setShowModal}>
+        <div className="relative h-full overflow-hidden shadow md:rounded-2xl md:border md:border-gray-200 w-full max-w-2xl md:h-auto">
+          <div className="relative rounded-lg bg-white dark:bg-gray-700">
+            <button
+              type="button"
+              className="absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white"
+              onClick={() => setShowModal(false)}
+            >
+              <svg
+                aria-hidden="true"
+                className="h-5 w-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+              <span className="sr-only">Close modal</span>
+            </button>
 
-                    <div className="px-6 py-6 lg:px-8">
-                      <h2 className="mb-4 text-2xl font-medium text-gray-900 dark:text-white">
-                        Add Location
-                      </h2>
-                      <form className="space-y-6" action="#">
-                        <div>
-                          <label
-                            htmlFor="address"
-                            className="mb-2 block text-lg font-medium text-gray-900 dark:text-white"
+            <div className="px-6 py-6 lg:px-8">
+              <h2 className="mb-4 text-2xl font-medium text-gray-900 dark:text-white">
+                Add Location
+              </h2>
+              <form className="space-y-6" action="#">
+                <div>
+                  <label
+                    htmlFor="address"
+                    className="mb-2 block text-lg font-medium text-gray-900 dark:text-white"
+                  >
+                    Address
+                  </label>
+                  <input
+                    type="url"
+                    id="address"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-lg text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    placeholder="Street address"
+                    autoComplete="nope"
+                    {...address}
+                    required
+                  />
+                  {address.suggestions?.length > 0 && (
+                    <SuggestionWrapper>
+                      {address.suggestions.map((suggestion, index) => {
+                        return (
+                          <Suggestion
+                            key={index}
+                            onClick={() => {
+                              address.setValue(suggestion.place_name);
+                              address.setSuggestions([]);
+                            }}
+                            className="hover:bg-blue-300"
                           >
-                            Address
-                          </label>
-                          <input
-                            type="url"
-                            id="address"
-                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-lg text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                            placeholder="Street address"
-                            autoComplete="nope"
-                            {...address}
-                            required
-                          />
-                          {address.suggestions?.length > 0 && (
-                            <SuggestionWrapper>
-                              {address.suggestions.map((suggestion, index) => {
-                                return (
-                                  <Suggestion
-                                    key={index}
-                                    onClick={() => {
-                                      address.setValue(suggestion.place_name);
-                                      address.setSuggestions([]);
-                                    }}
-                                    className="hover:bg-blue-300"
-                                  >
-                                    {suggestion.place_name.replace(
-                                      ", United States",
-                                      "",
-                                    )}
-                                  </Suggestion>
-                                );
-                              })}
-                            </SuggestionWrapper>
-                          )}
-                        </div>
+                            {suggestion.place_name.replace(
+                              ", United States",
+                              "",
+                            )}
+                          </Suggestion>
+                        );
+                      })}
+                    </SuggestionWrapper>
+                  )}
+                </div>
 
-                        <div>
-                          <label
-                            htmlFor="phone"
-                            className="mb-2 block text-lg font-medium text-gray-900 dark:text-white"
-                          >
-                            Phone number
-                          </label>
-                          <PhoneInput
-                            countryCodeEditable={false}
-                            country="us"
-                            value={value}
-                            onChange={setValue}
-                            placeholder=""
-                            inputClass="!w-full !bg-gray-50"
-                          />
-                        </div>
-                        <h2 className="block text-lg font-medium text-gray-900 dark:text-white">
-                          Hours of Operation
-                        </h2>
-                        <div className="overflow-y-auto scroll-smooth  p-1 md:max-h-[36rem]">
-                          <div className="mt-0 grid grid-cols-1 gap-3">
-                            <DayHours
-                              day={"Sunday"}
-                              enabled={true}
-                              enableTakeout={false}
-                              enableDelivery={true}
-                              dineInOpenHour={9}
-                            />
-                            <DayHours
-                              day={"Monday"}
-                              enabled={false}
-                              enableTakeout={false}
-                              enableDelivery={false}
-                            />
-                            <DayHours
-                              day={"Tuesday"}
-                              enabled={false}
-                              enableTakeout={false}
-                              enableDelivery={false}
-                            />
-                            <DayHours
-                              day={"Wednesday"}
-                              enabled={false}
-                              enableTakeout={false}
-                              enableDelivery={false}
-                            />
-                            <DayHours
-                              day={"Thrusday"}
-                              enabled={false}
-                              enableTakeout={false}
-                              enableDelivery={false}
-                            />
-                            <DayHours
-                              day={"Friday"}
-                              enabled={false}
-                              enableTakeout={false}
-                              enableDelivery={false}
-                            />
-                            <DayHours
-                              day={"Saturday"}
-                              enabled={false}
-                              enableTakeout={false}
-                              enableDelivery={false}
-                            />
-                          </div>
-                        </div>
-                      </form>
-                      <div className="flex justify-center pt-5">
-                        <button
-                          type="button"
-                          className="mb-2 mr-2 w-44 rounded-lg bg-red-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                        >
-                          Delete Location
-                        </button>
-                      </div>
-                    </div>
+                <div>
+                  <label
+                    htmlFor="phone"
+                    className="mb-2 block text-lg font-medium text-gray-900 dark:text-white"
+                  >
+                    Phone number
+                  </label>
+                  <PhoneInput
+                    countryCodeEditable={false}
+                    country="us"
+                    value={value}
+                    onChange={setValue}
+                    placeholder=""
+                    inputClass="!w-full !bg-gray-50"
+                  />
+                </div>
+                <h2 className="block text-lg font-medium text-gray-900 dark:text-white">
+                  Hours of Operation
+                </h2>
+                <div className="overflow-y-auto scroll-smooth  p-1 md:max-h-[36rem]">
+                  <div className="mt-0 grid grid-cols-1 gap-3">
+                    <DayHours
+                      day={"Sunday"}
+                      enabled={true}
+                      enableTakeout={false}
+                      enableDelivery={true}
+                      dineInOpenHour={9}
+                    />
+                    <DayHours
+                      day={"Monday"}
+                      enabled={false}
+                      enableTakeout={false}
+                      enableDelivery={false}
+                    />
+                    <DayHours
+                      day={"Tuesday"}
+                      enabled={false}
+                      enableTakeout={false}
+                      enableDelivery={false}
+                    />
+                    <DayHours
+                      day={"Wednesday"}
+                      enabled={false}
+                      enableTakeout={false}
+                      enableDelivery={false}
+                    />
+                    <DayHours
+                      day={"Thrusday"}
+                      enabled={false}
+                      enableTakeout={false}
+                      enableDelivery={false}
+                    />
+                    <DayHours
+                      day={"Friday"}
+                      enabled={false}
+                      enableTakeout={false}
+                      enableDelivery={false}
+                    />
+                    <DayHours
+                      day={"Saturday"}
+                      enabled={false}
+                      enableTakeout={false}
+                      enableDelivery={false}
+                    />
                   </div>
                 </div>
+              </form>
+              <div className="flex justify-center pt-5">
+                <button
+                  type="button"
+                  className="mb-2 mr-2 w-44 rounded-lg bg-red-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                >
+                  Delete Location
+                </button>
               </div>
             </div>
           </div>
-        </>
-      ) : null}
+        </div>
+      </Modal>
     </div>
   );
 }
