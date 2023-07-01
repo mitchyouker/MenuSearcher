@@ -183,7 +183,8 @@ export function MenuProvider({ children }: Props) {
   };
 
   const deleteCategory = (categoryId: string) => {
-    const updatedCategories = categories.filter(function(category) { return category.id !== categoryId }); 
+    const updatedCategories = categories.filter(function(category) { return category.id !== categoryId });
+    console.log(updatedCategories);
     setCategories(updatedCategories);
   };
 
