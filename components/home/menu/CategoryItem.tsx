@@ -31,7 +31,7 @@ const descriptionMotion = {
 };
 
 
-export const Drag = ({ id, index, price, name, description, ...props }) => {
+export const CategoryItem = ({ id, index, price, name, description, ...props }) => {
   const { updateItemName, updateItemPrice, updateItemDescription, deleteCategoryItem } = useMenuContext();
   
   return (

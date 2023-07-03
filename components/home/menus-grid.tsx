@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MenuDrag, DragAndDrop, Drag, Drop } from "./drag-and-drop";
+import { Category, CategoryItem, DragAndDrop, Drop } from "./menu";
 import { useMenuContext } from "../../context/menu";
 
 
@@ -46,7 +46,7 @@ export const MenusGrid = () => {
         <Drop id="droppable" type="droppable-category">
           {categories.map((category, categoryIndex) => {
             return (
-              <MenuDrag
+              <Category
                 className="draggable-category"
                 key={category.id}
                 id={category.id}
@@ -62,7 +62,7 @@ export const MenusGrid = () => {
                   >
                     {category.items.map((item, index) => {
                       return (
-                        <Drag
+                        <CategoryItem
                           className="draggable"
                           key={item.id}
                           id={item.id}
@@ -75,7 +75,7 @@ export const MenusGrid = () => {
                     })}
                   </Drop>
                 </div>
-              </MenuDrag>
+              </Category>
             );
           })}
         </Drop>
